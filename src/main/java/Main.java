@@ -1,3 +1,4 @@
+import org.postgresql.util.PSQLException;
 import person.Person;
 import randomData.RandomPerson;
 
@@ -9,7 +10,12 @@ public class Main {
         List<Person> people = new RandomPerson().createPeople(222_222);
         System.out.printf("Сгенерировано %d пользователей%n", people.size());
         try {
-            DatabaseQueries.createTables();
+            try {
+                DatabaseQueries.createTables();
+            } catch (PSQLException e) {
+                DatabaseConnection.setUrl("jdbc:postgresql://postgres:5432/postgres");
+                DatabaseQueries.createTables();
+            }
             DatabaseQueries.addUsers(people);
             System.out.println("Добавлены имена, даты и почта");
             DatabaseQueries.addPhones(people);

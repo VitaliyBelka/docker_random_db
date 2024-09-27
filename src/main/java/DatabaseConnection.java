@@ -8,6 +8,10 @@ public class DatabaseConnection {
     private static String password = "postgres";
     private static Connection connection;
 
+    public static void setUrl(String url) {
+        DatabaseConnection.url = url;
+    }
+
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(url, user, password);
