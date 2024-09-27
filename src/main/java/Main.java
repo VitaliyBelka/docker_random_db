@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Person> people = new RandomPerson().createPeople(22222);
+        List<Person> people = new RandomPerson().createPeople(222_222);
         System.out.printf("Сгенерировано %d пользователей%n", people.size());
         try {
             DatabaseQueries.createTables();
@@ -16,7 +16,8 @@ public class Main {
             System.out.println("Добавлены телефоны");
             DatabaseQueries.addAddress(people);
             System.out.println("Добавлены адреса");
-            DatabaseQueries.addHobby(people);
+            DatabaseQueries.addHobby();
+            DatabaseQueries.addUserHobbies(people.size());
             System.out.println("Добавлены хобби");
         } catch (SQLException e) {
             e.printStackTrace();

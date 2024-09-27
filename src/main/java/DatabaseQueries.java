@@ -1,5 +1,6 @@
 import org.postgresql.util.PSQLException;
 import person.Person;
+import randomData.Hobby;
 
 import java.sql.*;
 import java.util.Collections;
@@ -17,10 +18,15 @@ public class DatabaseQueries {
 
         String phones = "CREATE TABLE phones(phone_id SERIAL PRIMARY KEY, phone VARCHAR(20), " + foreignKey;
 
-        String hobbies = "CREATE TABLE hobbies(hobby_id SERIAL PRIMARY KEY, hobby VARCHAR(50), " + foreignKey;
+//        String hobbies = "CREATE TABLE hobbies(hobby_id SERIAL PRIMARY KEY, hobby VARCHAR(50), " + foreignKey;
 
         String address = "CREATE TABLE address(address_id SERIAL PRIMARY KEY, city VARCHAR(30), " +
                 "street VARCHAR(50), house SMALLINT, apartment SMALLINT, " + foreignKey;
+
+        String hobbies = "CREATE TABLE hobbies(hobby_id SERIAL PRIMARY KEY, hobby VARCHAR(50))";
+
+        String userHobbies = "CREATE TABLE user_hobbies(user_id INTEGER REFERENCES users(user_id), " +
+                "hobby_id INTEGER REFERENCES hobbies(hobby_id), PRIMARY KEY (user_id, hobby_id))";
 
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
@@ -30,6 +36,7 @@ public class DatabaseQueries {
             statement.execute(phones);
             statement.execute(hobbies);
             statement.execute(address);
+            statement.execute(userHobbies);
             System.out.println("Таблицы созданы");
         } catch (PSQLException e) {
             System.out.println("Tables already exists");
@@ -104,17 +111,34 @@ public class DatabaseQueries {
         DatabaseConnection.closeConnection();
     }
 
-    public static void addHobby(List<Person> people) throws SQLException {
-        String sql = "INSERT INTO hobbies(hobby, user_id) VALUES (?, ?)";
+    public static void addHobby() throws SQLException {
+        String sql = "INSERT INTO hobbies(hobby) VALUES (?)";
 
         Connection connection = DatabaseConnection.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
 
-        for (int i = 0; i < people.size(); i++) {
-            int count = people.get(i).getHobby().size();
-            for (int j = 0; j < count; j++) {
-                statement.setString(1, people.get(i).getHobby().get(j));
-                statement.setInt(2, i + 1);
+        for (String hobby : Hobby.hobbies) {
+            statement.setString(1, hobby);
+            statement.addBatch();
+        }
+
+        statement.executeBatch();
+        statement.close();
+        connection.close();
+        DatabaseConnection.closeConnection();
+    }
+
+    public static void addUserHobbies(int size) throws SQLException {
+        String sql = "INSERT INTO user_hobbies(user_id, hobby_id) VALUES (?, ?)";
+
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        for (int i = 1; i <= size; i++) {
+            List<Integer> list = Hobby.randomHobby();
+            for (int j = 0; j < list.size(); j++) {
+                statement.setInt(1, i);
+                statement.setInt(2, list.get(j));
                 statement.addBatch();
             }
         }

@@ -11,16 +11,15 @@ public class Person {
     private List<String> phone;
     private String email;
     private Timestamp regDate;
-    private List<String> hobby;
+//    private List<String> hobby;
 
-    public Person(String name, Date birthDate, Address address, List<String> phone, String email, Timestamp regDate, List<String> hobby) {
+    public Person(String name, Date birthDate, Address address, List<String> phone, String email, Timestamp regDate) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
         this.phone = phone;
         this.email = email;
         this.regDate = regDate;
-        this.hobby = hobby;
     }
 
     public String getName() {
@@ -69,13 +68,5 @@ public class Person {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public List<String> getHobby() {
-        return hobby;
-    }
-
-    public void setHobby(List<String> hobby) {
-        this.hobby = hobby;
     }
 }

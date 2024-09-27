@@ -32,7 +32,7 @@ public class RandomPerson {
 
             people.add(new Person(tempData[0], randomBirthDate(), new Address(faker.address().city(),
                     faker.address().streetName(), randomInt(), randomInt()), phones.get(i),
-                    tempData[1], randomRegDate(), Hobby.randomHobby()));
+                    tempData[1], randomRegDate()));
         }
 
         return people;
