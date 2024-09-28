@@ -1,4 +1,5 @@
 Main.class
+NumberInputWindow.class
 DatabaseConnection.class
 person\Address.class
 randomData\RandomPerson.class
