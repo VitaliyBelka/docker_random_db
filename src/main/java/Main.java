@@ -7,17 +7,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        NumberInputWindow window = new NumberInputWindow();
-        // Ждем, пока пользователь введет число и закроет окно
-        while (window.getNumber() == 0) {
-            try {
-                Thread.sleep(100); // пауза для предотвращения высокой загрузки процессора
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        List<Person> people = new RandomPerson().createPeople(window.getNumber());
+        List<Person> people = new RandomPerson().createPeople(222_222);
         System.out.printf("Сгенерировано %d пользователей%n", people.size());
         try {
             try {
