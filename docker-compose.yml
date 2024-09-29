@@ -12,6 +12,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 15
+      start_period: 20s
 
   app:
     build: .
@@ -23,22 +24,6 @@ services:
     image: elestio/pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_PASSWORD: postgres
     ports:
       - "8080:80"
-    depends_on:
-      - postgres
-
-  # phppgadmin:
-  #   image: dockage/phppgadmin
-  #   ports:
-  #     - "8080:80"
-  #   environment:
-  #     - PHP_PG_ADMIN_SERVER=host.docker.internal
-  #     - PHP_PG_ADMIN_SERVER_PORT=5432
-  #     - PHP_PG_ADMIN_SERVER_SSL=false
-  #     - PHP_PG_ADMIN_SERVER_VERBOSE=false
-  #     - PHP_PG_ADMIN_DEFAULT_LANG=ru
-  #     - PHP_PG_ADMIN_AUTO_COMPLETE=true
-  #   depends_on:
-  #     - db
