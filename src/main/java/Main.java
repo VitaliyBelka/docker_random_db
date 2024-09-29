@@ -7,7 +7,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Person> people = new RandomPerson().createPeople(222_222);
+        int rows = Integer.parseInt(System.getenv("rows"));
+        List<Person> people = new RandomPerson().createPeople(rows);
         System.out.printf("Сгенерировано %d пользователей%n", people.size());
         try {
             try {
